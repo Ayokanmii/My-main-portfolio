@@ -93,6 +93,15 @@ const Projects = () => (
             >
               Live Demo
             </a>
+            <a
+              href="https://youtu.be/OdTeS47qF9Q"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-red-600 dark:text-red-400 hover:underline font-medium"
+              aria-label="View ShopWise video demo"
+            >
+              Video Demo
+            </a>
           </div>
         </div>
         <div className="bg-gray-800 p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow">
@@ -113,6 +122,15 @@ const Projects = () => (
               aria-label="View WatchWise on GitHub"
             >
               GitHub
+            </a>
+            <a
+              href="https://youtu.be/jYt-fKd6vp0"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-red-600 dark:text-red-400 hover:underline font-medium"
+              aria-label="View WatchWise video demo"
+            >
+              Video Demo
             </a>
           </div>
         </div>
