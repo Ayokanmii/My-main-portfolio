@@ -4,7 +4,7 @@ import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 
 const Home = () => (
-  <header className="py-16 sm:py-20 bg-gradient-to-r from-red-600 to-red-800 text-white text-center">
+  <header className="py-16 sm:py-20 bg-black text-white text-center">
     <div className="max-w-4xl mx-auto px-4 sm:px-6">
       <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold mb-4">
         Olatunji Ayokanmi Damilola
