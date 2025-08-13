@@ -27,7 +27,7 @@ I’m seeking remote or hybrid **Frontend** or **Fullstack Developer** roles in 
 | Frontend       | Backend         | Database       | Tools              |
 |----------------|-----------------|----------------|--------------------|
 | React.js       | Node.js         | PostgreSQL     | Git & GitHub       |
-| HTML5/CSS3     | Express.js      | MongoDB        | Visual Studio Code |
+| HTML5/CSS3     | Express.js      |                | Visual Studio Code |
 | Tailwind CSS   |                 |                | Netlify, Render    |
 
 ---
@@ -38,12 +38,14 @@ I’m seeking remote or hybrid **Frontend** or **Fullstack Developer** roles in 
    A full-stack e-commerce platform featuring product browsing, cart management, secure checkout, and AI-powered clothing recommendations via OpenRouter API. Built with a mobile-first, responsive UI.  
    **Stack**: React, Tailwind CSS, Node.js, Express, PostgreSQL  
    🔗 [GitHub Repo](https://github.com/Ayokanmii/ShopWise)  
-   🔗 [Live Demo](https://damishopwise.netlify.app)
+   🔗 [Live Demo](https://damishopwise.netlify.app)  
+   🔗 [Video Demo](https://youtu.be/OdTeS47qF9Q)
 
 2. **🎬 WatchWise**  
    An AI-powered movie recommender app with user authentication, protected routes, and a modern interface. Users can search, recommend, and save favorite movies.  
    **Stack**: React, Node.js, Express, PostgreSQL, OpenAI API, Tailwind CSS  
-   🔗 [GitHub Repo](https://github.com/Ayokanmii/WatchWise)
+   🔗 [GitHub Repo](https://github.com/Ayokanmii/WatchWise)  
+   🔗 [Video Demo](https://youtu.be/jYt-fKd6vp0)
 
 3. **⚛️ React Hello World App**  
    An introductory React project demonstrating component rendering and state management fundamentals.  
@@ -60,7 +62,8 @@ I’m seeking remote or hybrid **Frontend** or **Fullstack Developer** roles in 
 ## 🌍 Live Portfolio
 
 My portfolio is live at:  
-🔗 [https://your-portfolio.vercel.app/](https://your-portfolio.vercel.app/) (Update with your actual deployment link)
+🔗 [Insert your actual deployment link here, e.g., https://olatunji-portfolio.netlify.app/]  
+*Note*: Please provide the actual live URL of your portfolio to update this section.
 
 ---
 
@@ -78,10 +81,10 @@ To run this portfolio locally:
 
 ```bash
 # Clone the repository
-git clone https://github.com/Ayokanmii/My-portfolio.git
+git clone https://github.com/Ayokanmii/[Your-Portfolio-Repo-Name].git
 
 # Navigate to the project folder
-cd my-portfolio
+cd [Your-Portfolio-Repo-Name]
 
 # Install dependencies
 npm install
