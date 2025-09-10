@@ -164,7 +164,7 @@ const About = () => (
         <li>
           <strong>WatchWise</strong> – Movie recommendation app integrating OpenAI for personalized suggestions, with protected routes and watchlist functionality.{' '}
           <a
-            href="https://github.com/Ayokanmii/WatchWise"
+            href="https://github.com/Ayokanmii/movie-recommendation-app"
             target="_blank"
             rel="noopener noreferrer"
             className="text-red-600 dark:text-red-400 hover:underline"
@@ -250,7 +250,7 @@ const About = () => (
 );
 
 const Projects = () => (
-  <section id="projects" className="py-12 sm:py-16 bg-gray-900">
+  <section id="projects" className="py-12 sm:py-16 bg-gray-950">
     <div className="max-w-4xl mx-auto px-4 sm:px-6">
       <h2 className="text-2xl sm:text-3xl font-bold text-red-600 dark:text-red-400 mb-8">
         📂 Projects
@@ -302,7 +302,7 @@ const Projects = () => (
           </p>
           <div className="flex space-x-4">
             <a
-              href="https://github.com/Ayokanmii/WatchWise"
+              href="https://github.com/Ayokanmii/movie-recommendation-app"
               target="_blank"
               rel="noopener noreferrer"
               className="text-red-600 dark:text-red-400 hover:underline font-medium"
