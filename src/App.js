@@ -1,154 +1,299 @@
 import React, { useState } from 'react';
 import { HashRouter as Router, Routes, Route, Link } from 'react-router-dom';
 
-// ==================== NAVBAR ====================
-const Navbar = () => (
-  <nav className="sticky top-0 bg-white dark:bg-gray-800 shadow-lg z-10 backdrop-blur-sm bg-white/80 dark:bg-gray-800/80">
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
-      <Link to="/" className="group">
-        <h1 className="text-xl sm:text-2xl font-bold text-rose-600 dark:text-rose-400 hover:text-rose-700 dark:hover:text-rose-300 transition-colors">
-          Olatunji Ayokanmi
-        </h1>
-      </Link>
-      <div className="flex space-x-4 sm:space-x-6">
-        {['Home', 'About', 'Projects', 'Certificates', 'Resume', 'Contact'].map((item) => (
-          <Link
-            key={item}
-            to={`/${item === 'Home' ? '' : item.toLowerCase()}`}
-            className="text-base sm:text-lg font-medium text-gray-700 dark:text-gray-300 hover:text-rose-600 dark:hover:text-rose-400 transition-colors relative group"
-            aria-label={`Navigate to ${item} section`}
-          >
-            {item}
-            <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-rose-600 dark:bg-rose-400 group-hover:w-full transition-all duration-300"></span>
+// ==================== SIDEBAR NAVIGATION ====================
+const Sidebar = ({ isOpen, toggleSidebar }) => {
+  const navItems = [
+    { name: 'Home', path: '/', icon: '🏠' },
+    { name: 'About', path: '/about', icon: '👤' },
+    { name: 'Projects', path: '/projects', icon: '💼' },
+    { name: 'Certificates', path: '/certificates', icon: '📜' },
+    { name: 'Resume', path: '/resume', icon: '📄' },
+    { name: 'Contact', path: '/contact', icon: '📧' },
+  ];
+
+  return (
+    <>
+      {/* Desktop Sidebar */}
+      <aside className="hidden lg:block fixed left-0 top-0 h-full w-64 bg-white dark:bg-gray-800 border-r border-gray-200 dark:border-gray-700 z-30 overflow-y-auto">
+        <div className="p-6 border-b border-gray-200 dark:border-gray-700">
+          <Link to="/" className="flex items-center gap-3 group">
+            <div className="w-10 h-10 bg-blue-600 rounded-lg flex items-center justify-center">
+              <span className="text-white font-bold text-lg">OA</span>
+            </div>
+            <div>
+              <h1 className="text-lg font-bold text-gray-800 dark:text-white group-hover:text-blue-600 transition-colors">
+                Olatunji Ayokanmi
+              </h1>
+              <p className="text-sm text-gray-600 dark:text-gray-400">Full-Stack Developer</p>
+            </div>
           </Link>
-        ))}
-      </div>
+        </div>
+
+        <nav className="p-4">
+          <ul className="space-y-2">
+            {navItems.map((item) => (
+              <li key={item.name}>
+                <Link
+                  to={item.path}
+                  className="flex items-center gap-3 px-4 py-3 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-blue-50 dark:hover:bg-gray-700 hover:text-blue-600 dark:hover:text-blue-400 transition-all group"
+                >
+                  <span className="text-xl">{item.icon}</span>
+                  <span className="font-medium">{item.name}</span>
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </nav>
+
+        <div className="p-4 border-t border-gray-200 dark:border-gray-700 mt-auto">
+          <div className="flex justify-center space-x-4">
+            {[
+              { name: 'GitHub', url: 'https://github.com/Ayokanmii', icon: 'M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z' },
+              { name: 'LinkedIn', url: 'https://www.linkedin.com/in/olatunjiayokanmi', icon: 'M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z' },
+            ].map((social) => (
+              <a
+                key={social.name}
+                href={social.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
+                aria-label={`Visit ${social.name}`}
+              >
+                <svg className="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
+                  <path d={social.icon} />
+                </svg>
+              </a>
+            ))}
+          </div>
+        </div>
+      </aside>
+
+      {/* Mobile Sidebar Overlay */}
+      {isOpen && (
+        <div
+          className="lg:hidden fixed inset-0 bg-black bg-opacity-50 z-40"
+          onClick={toggleSidebar}
+        ></div>
+      )}
+
+      {/* Mobile Sidebar */}
+      <aside
+        className={`lg:hidden fixed left-0 top-0 h-full w-64 bg-white dark:bg-gray-800 border-r border-gray-200 dark:border-gray-700 z-50 transform transition-transform duration-300 ease-in-out ${
+          isOpen ? 'translate-x-0' : '-translate-x-full'
+        }`}
+      >
+        <div className="p-6 border-b border-gray-200 dark:border-gray-700">
+          <div className="flex items-center justify-between">
+            <Link to="/" className="flex items-center gap-3" onClick={toggleSidebar}>
+              <div className="w-10 h-10 bg-blue-600 rounded-lg flex items-center justify-center">
+                <span className="text-white font-bold text-lg">OA</span>
+              </div>
+              <div>
+                <h1 className="text-lg font-bold text-gray-800 dark:text-white">Olatunji Ayokanmi</h1>
+                <p className="text-sm text-gray-600 dark:text-gray-400">Full-Stack Developer</p>
+              </div>
+            </Link>
+            <button
+              onClick={toggleSidebar}
+              className="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700"
+            >
+              <svg className="w-6 h-6 text-gray-600 dark:text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </button>
+          </div>
+        </div>
+
+        <nav className="p-4">
+          <ul className="space-y-2">
+            {navItems.map((item) => (
+              <li key={item.name}>
+                <Link
+                  to={item.path}
+                  className="flex items-center gap-3 px-4 py-3 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-blue-50 dark:hover:bg-gray-700 hover:text-blue-600 dark:hover:text-blue-400 transition-all"
+                  onClick={toggleSidebar}
+                >
+                  <span className="text-xl">{item.icon}</span>
+                  <span className="font-medium">{item.name}</span>
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </nav>
+      </aside>
+    </>
+  );
+};
+
+// ==================== TOP NAVBAR ====================
+const TopNavbar = ({ toggleSidebar }) => (
+  <nav className="lg:hidden fixed top-0 left-0 right-0 bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 z-30">
+    <div className="px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
+      <Link to="/" className="flex items-center gap-3">
+        <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center">
+          <span className="text-white font-bold">OA</span>
+        </div>
+        <div>
+          <h1 className="text-lg font-bold text-gray-800 dark:text-white">Olatunji Ayokanmi</h1>
+          <p className="text-xs text-gray-600 dark:text-gray-400">Full-Stack Developer</p>
+        </div>
+      </Link>
+      
+      <button
+        onClick={toggleSidebar}
+        className="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700"
+        aria-label="Open navigation menu"
+      >
+        <svg className="w-6 h-6 text-gray-600 dark:text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+        </svg>
+      </button>
     </div>
   </nav>
 );
 
-// ==================== FLOATING RESUME BUTTON ====================
-const FloatingResumeButton = () => (
-  <a
-    href="https://drive.google.com/uc?export=download&id=1MQCdGmyzzojA-Usaux1SMAbo6BBUysU-"
-    className="fixed bottom-6 right-6 bg-gradient-to-r from-rose-600 to-rose-500 text-white font-medium py-3 px-6 rounded-full shadow-2xl hover:shadow-rose-500/25 hover:scale-105 transition-all duration-300 z-40 flex items-center gap-2 group animate-bounce-slow"
-    aria-label="Download Resume"
-    download
-  >
-    <svg className="w-5 h-5 group-hover:animate-bounce" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
-    </svg>
-    Download Resume
-  </a>
-);
-
-// ==================== FOOTER ====================
-const Footer = () => (
-  <footer className="py-8 bg-gray-900 dark:bg-gray-900 border-t border-gray-800">
-    <div className="max-w-7xl mx-auto px-4 sm:px-6">
-      <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
-        <div className="flex space-x-6 mb-4 md:mb-0">
-          {[
-            { name: 'GitHub', url: 'https://github.com/Ayokanmii', icon: 'M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z' },
-            { name: 'LinkedIn', url: 'https://www.linkedin.com/in/olatunjiayokanmi', icon: 'M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z' },
-            { name: 'Email', url: 'mailto:olatunjiayokanmii@gmail.com', icon: 'M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z' },
-            { name: 'WhatsApp', url: 'https://wa.me/+2348103106438', icon: 'M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347zm-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.76.982.998-3.677-.236-.374a9.86 9.86 0 01-1.505-5.193c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.9 6.994c-.004 5.45-4.438 9.88-9.888 9.88z' }
-          ].map((social) => (
-            <a
-              key={social.name}
-              href={social.url}
-              target={social.name !== 'Email' ? "_blank" : undefined}
-              rel="noopener noreferrer"
-              className="text-gray-400 hover:text-rose-500 transition-colors p-2 hover:bg-gray-800 rounded-full"
-              aria-label={`Visit Olatunji Ayokanmi's ${social.name}`}
-            >
-              <svg className="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
-                <path d={social.icon} />
-              </svg>
-            </a>
-          ))}
-        </div>
-        <p className="text-sm text-gray-400 text-center">
-          &copy; {new Date().getFullYear()} Olatunji Ayokanmi Damilola. All rights reserved.
-        </p>
-      </div>
-    </div>
-  </footer>
-);
-
 // ==================== HOME ====================
 const Home = () => (
-  <header className="py-20 sm:py-28 bg-gradient-to-br from-gray-900 via-black to-gray-900 text-white text-center relative overflow-hidden">
-    <div className="absolute inset-0 bg-grid-white/5 bg-grid-16"></div>
-    <div className="relative max-w-4xl mx-auto px-4 sm:px-6">
-      <div className="inline-block mb-6 px-4 py-2 bg-rose-500/10 border border-rose-500/20 rounded-full">
-        <span className="text-rose-400 text-sm font-medium">Frontend & Full-Stack Developer | Software Tester</span>
+  <div className="relative min-h-screen flex items-center justify-center overflow-hidden">
+    {/* Background Pattern */}
+    <div className="absolute inset-0 bg-gradient-to-br from-gray-50 via-white to-gray-100 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900">
+      <div className="absolute inset-0 opacity-5 dark:opacity-10">
+        <div className="absolute inset-0" style={{
+          backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23000000' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`,
+        }}></div>
       </div>
-      <h1 className="text-4xl sm:text-5xl md:text-6xl font-extrabold mb-6 leading-tight">
-        <span className="bg-clip-text text-transparent bg-gradient-to-r from-rose-400 to-rose-600">Olatunji Ayokanmi</span>
+    </div>
+
+    <div className="relative z-10 text-center px-4 max-w-4xl mx-auto">
+      {/* Profile Image Placeholder */}
+      <div className="w-32 h-32 rounded-full bg-gradient-to-r from-blue-500 to-blue-600 mx-auto mb-8 flex items-center justify-center shadow-2xl">
+        <span className="text-5xl text-white">OA</span>
+      </div>
+
+      <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold text-gray-800 dark:text-white mb-6">
+        Olatunji <span className="text-blue-600">Ayokanmi</span>
       </h1>
-      <p className="text-xl sm:text-2xl text-gray-300 max-w-3xl mx-auto mb-8 leading-relaxed">
-        Building exceptional digital experiences with React, Node.js, AI integration, and a keen eye for quality through software testing.
+      
+      <div className="inline-block px-6 py-2 bg-gradient-to-r from-blue-500 to-blue-600 rounded-full mb-8">
+        <p className="text-white font-medium text-lg">
+          Full-Stack Developer & Software Tester
+        </p>
+      </div>
+
+      <p className="text-xl text-gray-600 dark:text-gray-300 max-w-2xl mx-auto mb-12 leading-relaxed">
+        Building scalable web applications with modern technologies. 
+        Expert in React, Node.js, PostgreSQL, and AI integration. 
+        Passionate about clean code, user experience, and software quality.
       </p>
+
       <div className="flex flex-col sm:flex-row gap-4 justify-center">
         <a
           href="#projects"
-          className="inline-flex items-center justify-center px-6 py-3 bg-rose-600 text-white font-medium rounded-lg hover:bg-rose-700 transition-colors shadow-lg shadow-rose-600/25"
+          className="px-8 py-3 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700 transition-colors shadow-lg"
         >
-          View My Projects
+          View Projects
         </a>
         <a
           href="#contact"
-          className="inline-flex items-center justify-center px-6 py-3 bg-gray-800 text-gray-100 font-medium rounded-lg hover:bg-gray-700 transition-colors border border-gray-700"
+          className="px-8 py-3 bg-white dark:bg-gray-800 text-gray-800 dark:text-white border border-gray-300 dark:border-gray-600 font-medium rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
         >
-          Get In Touch
+          Contact Me
         </a>
       </div>
     </div>
-  </header>
+  </div>
 );
 
 // ==================== ABOUT ====================
 const About = () => (
-  <section id="about" className="py-16 bg-gradient-to-b from-gray-900 to-gray-950">
-    <div className="max-w-7xl mx-auto px-4 sm:px-6">
-      <div className="grid md:grid-cols-3 gap-8 items-start">
-        <div className="md:col-span-2">
-          <h2 className="text-3xl sm:text-4xl font-bold text-white mb-6">
-            About <span className="text-rose-500">Me</span>
+  <section className="py-20 bg-white dark:bg-gray-900">
+    <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="grid lg:grid-cols-2 gap-12 items-center">
+        <div>
+          <h2 className="text-3xl sm:text-4xl font-bold text-gray-800 dark:text-white mb-6">
+            About <span className="text-blue-600">Me</span>
           </h2>
-          <div className="space-y-6 text-gray-300">
+          <div className="space-y-4 text-gray-600 dark:text-gray-300">
             <p className="text-lg leading-relaxed">
-              I'm a passionate and detail-oriented Frontend & Full-Stack Developer with hands-on experience in building dynamic, responsive, and AI-powered applications. My journey combines technical development with quality assurance, ensuring I deliver robust, user-centric solutions.
+              I am a dedicated Full-Stack Developer and Software Tester with a passion for 
+              creating efficient, scalable, and user-friendly applications. My approach 
+              combines technical expertise with a focus on delivering exceptional user 
+              experiences.
             </p>
             <p className="text-lg leading-relaxed">
-              With expertise in React, Tailwind CSS, Node.js, PostgreSQL, and OpenAI integrations, I create scalable solutions with clean, mobile-first UIs. Complementing my development skills, I bring strong proficiency in Software Testing (Manual, Web, and Mobile App Testing), guaranteeing product quality, usability, and reliability.
+              With hands-on experience in modern web technologies and AI integration, 
+              I build solutions that solve real-world problems. My background in software 
+              testing ensures that I deliver robust, high-quality applications.
             </p>
-            <div className="inline-flex items-center gap-2 px-4 py-2 bg-rose-500/10 border border-rose-500/20 rounded-lg">
-              <span className="text-rose-400">✨</span>
-              <span className="text-rose-300">3MTT Graduate | ALX Professional Foundation Certificate in Software Development</span>
+          </div>
+
+          <div className="mt-8 p-6 bg-blue-50 dark:bg-gray-800 rounded-xl">
+            <h3 className="text-xl font-semibold text-gray-800 dark:text-white mb-4">
+              Education & Certifications
+            </h3>
+            <ul className="space-y-3">
+              <li className="flex items-center gap-3">
+                <div className="w-8 h-8 bg-blue-100 dark:bg-blue-900/30 rounded-lg flex items-center justify-center">
+                  <span className="text-blue-600 dark:text-blue-400">🎓</span>
+                </div>
+                <span className="text-gray-700 dark:text-gray-300">B.Sc. Computer Science</span>
+              </li>
+              <li className="flex items-center gap-3">
+                <div className="w-8 h-8 bg-blue-100 dark:bg-blue-900/30 rounded-lg flex items-center justify-center">
+                  <span className="text-blue-600 dark:text-blue-400">📜</span>
+                </div>
+                <span className="text-gray-700 dark:text-gray-300">3MTT Graduate Program</span>
+              </li>
+              <li className="flex items-center gap-3">
+                <div className="w-8 h-8 bg-blue-100 dark:bg-blue-900/30 rounded-lg flex items-center justify-center">
+                  <span className="text-blue-600 dark:text-blue-400">📜</span>
+                </div>
+                <span className="text-gray-700 dark:text-gray-300">ALX Professional Certificate</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <div className="space-y-8">
+          <div>
+            <h3 className="text-2xl font-semibold text-gray-800 dark:text-white mb-6">
+              Technical Skills
+            </h3>
+            <div className="grid grid-cols-2 gap-4">
+              {['Frontend', 'Backend', 'Databases', 'Testing'].map((category) => (
+                <div key={category} className="p-4 bg-gray-50 dark:bg-gray-800 rounded-lg">
+                  <h4 className="font-medium text-gray-800 dark:text-white mb-3">{category}</h4>
+                  <div className="space-y-2">
+                    {category === 'Frontend' && ['React.js', 'Tailwind CSS', 'JavaScript', 'HTML/CSS'].map(skill => (
+                      <div key={skill} className="flex items-center justify-between">
+                        <span className="text-sm text-gray-600 dark:text-gray-400">{skill}</span>
+                        <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
+                      </div>
+                    ))}
+                    {category === 'Backend' && ['Node.js', 'Express.js', 'REST APIs', 'Authentication'].map(skill => (
+                      <div key={skill} className="flex items-center justify-between">
+                        <span className="text-sm text-gray-600 dark:text-gray-400">{skill}</span>
+                        <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
+                      </div>
+                    ))}
+                    {category === 'Databases' && ['PostgreSQL', 'MongoDB', 'Database Design'].map(skill => (
+                      <div key={skill} className="flex items-center justify-between">
+                        <span className="text-sm text-gray-600 dark:text-gray-400">{skill}</span>
+                        <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
+                      </div>
+                    ))}
+                    {category === 'Testing' && ['Manual Testing', 'API Testing', 'Mobile Testing'].map(skill => (
+                      <div key={skill} className="flex items-center justify-between">
+                        <span className="text-sm text-gray-600 dark:text-gray-400">{skill}</span>
+                        <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              ))}
             </div>
           </div>
-        </div>
-        
-        <div className="bg-gray-800/50 p-6 rounded-xl border border-gray-700">
-          <h3 className="text-xl font-semibold text-white mb-4">Core Skills</h3>
-          <div className="flex flex-wrap gap-3">
-            {['React.js', 'Node.js', 'JavaScript', 'Tailwind CSS', 'PostgreSQL', 'Express.js', 'n8n', 'OpenAI API', 'Git/GitHub', 'Postman', 'Software Testing', 'JWT Auth', 'REST APIs', 'TypeScript'].map((skill) => (
-              <span key={skill} className="px-3 py-2 bg-gray-700/50 text-gray-200 rounded-lg text-sm font-medium hover:bg-rose-600/20 hover:text-rose-300 transition-colors">
-                {skill}
-              </span>
-            ))}
-          </div>
-        </div>
-      </div>
-
-      <div className="mt-12">
-        <h3 className="text-2xl font-bold text-white mb-6">Career Goal</h3>
-        <div className="bg-gray-800/30 p-6 rounded-xl border border-gray-700">
-          <p className="text-lg text-gray-300">
-            To contribute as a Frontend/Full-Stack Developer within innovative, product-driven teams while leveraging my software testing experience to enhance user experience and product reliability. I aim to build solutions that are not only functional but also deliver exceptional value through quality and performance.
-          </p>
         </div>
       </div>
     </div>
@@ -159,116 +304,133 @@ const About = () => (
 const Projects = () => {
   const projects = [
     {
-      title: "♻️ EcoCycle NG",
-      description: "Sustainable waste management platform for Nigeria enabling pickup scheduling and recycling tracking with real-time monitoring.",
-      tags: ["React", "Node.js", "PostgreSQL", "Map Integration"],
-      links: [
-        { text: "GitHub", url: "https://github.com/Ayokanmii/EcoCycle" },
-        { text: "Live Demo", url: "https://eco-cycle-ng.vercel.app" }
-      ]
+      title: "EcoCycle NG",
+      description: "Sustainable waste management platform enabling pickup scheduling and recycling tracking across Nigeria.",
+      category: "Full-Stack",
+      tags: ["React", "Node.js", "PostgreSQL", "Map API"],
+      github: "https://github.com/Ayokanmii/EcoCycle",
+      live: "https://eco-cycle-ng.vercel.app"
     },
     {
-      title: "🤖 Telegram Sales Bot",
-      description: "AI-powered Telegram bot for automated e-commerce sales, customer support, and order management with natural language processing.",
-      tags: ["n8n", "AI", "Automation", "Telegram API"],
-      links: [
-        { text: "Video Demo", url: "https://www.facebook.com/share/v/17udHe3CEn/" }
-      ]
+      title: "ShopWise E-Commerce",
+      description: "Complete e-commerce solution with AI recommendations, cart management, and admin dashboard.",
+      category: "Full-Stack",
+      tags: ["React", "Node.js", "PostgreSQL", "AI"],
+      github: "https://github.com/Ayokanmii/ShopWise",
+      live: "https://damishopwise.netlify.app"
     },
     {
-      title: "🛒 ShopWise E-Commerce",
-      description: "Full-stack e-commerce platform with AI-powered recommendations, secure JWT authentication, cart management, and admin dashboard.",
-      tags: ["React", "Node.js", "PostgreSQL", "OpenAI", "Tailwind"],
-      links: [
-        { text: "GitHub", url: "https://github.com/Ayokanmii/ShopWise" },
-        { text: "Live Demo", url: "https://damishopwise.netlify.app" },
-        { text: "Video", url: "https://youtu.be/OdTeS47qF9Q" }
-      ]
+      title: "WatchWise AI",
+      description: "Intelligent movie recommendation system powered by OpenAI API and personalized user preferences.",
+      category: "AI Integration",
+      tags: ["React", "OpenAI", "JWT Auth", "PostgreSQL"],
+      github: "https://github.com/Ayokanmii/movie-recommendation-app",
+      video: "https://youtu.be/jYt-fKd6vp0"
     },
     {
-      title: "🎬 WatchWise AI",
-      description: "Movie recommendation app integrating OpenAI for personalized suggestions with protected routes and watchlist functionality.",
-      tags: ["React", "OpenAI API", "PostgreSQL", "JWT Auth"],
-      links: [
-        { text: "GitHub", url: "https://github.com/Ayokanmii/movie-recommendation-app" },
-        { text: "Video Demo", url: "https://youtu.be/jYt-fKd6vp0" }
-      ]
-    },
-    {
-      title: "🛡️ Fraud Detection Automation",
-      description: "Advanced workflow leveraging AI + n8n automation to detect fraudulent patterns in transactions with real-time alerts.",
+      title: "Fraud Detection System",
+      description: "Advanced workflow leveraging AI and automation to detect fraudulent transaction patterns.",
+      category: "Automation",
       tags: ["n8n", "AI", "Automation", "Security"],
-      links: [
-        { text: "GitHub", url: "https://github.com/Ayokanmii/Advanced-Fraud-Detection" },
-        { text: "Demo", url: "https://youtu.be/6eE-1OU0z8k" }
-      ]
+      github: "https://github.com/Ayokanmii/Advanced-Fraud-Detection",
+      video: "https://youtu.be/6eE-1OU0z8k"
     },
     {
-      title: "📩 AI Marketing Campaigns",
-      description: "AI-powered automated email campaign system generating personalized emails and segmenting customers via Gmail API.",
-      tags: ["n8n", "AI", "Gmail API", "Google Sheets"],
-      links: [
-        { text: "GitHub", url: "https://github.com/Ayokanmii/Marketing_compaign" },
-        { text: "Demo", url: "https://youtu.be/5kwYrjb8zFg" }
-      ]
+      title: "AI Marketing Automation",
+      description: "Automated email campaign system with AI-generated content and customer segmentation.",
+      category: "Automation",
+      tags: ["n8n", "Gmail API", "Google Sheets", "AI"],
+      github: "https://github.com/Ayokanmii/Marketing_compaign",
+      video: "https://youtu.be/5kwYrjb8zFg"
     },
     {
-      title: "📊 Sentiment Analyzer",
-      description: "Automated n8n workflow scraping Amazon reviews, classifying sentiment with AI, and emailing daily summaries.",
-      tags: ["n8n", "AI", "Web Scraping", "Automation"],
-      links: [
-        { text: "GitHub", url: "https://github.com/Ayokanmii/Analyze-Sentiment" },
-        { text: "Demo", url: "https://youtube.com/shorts/WDxzv2CmGuo?si=mv_GFlf5-QhC9HRn" }
-      ]
+      title: "Telegram Sales Bot",
+      description: "AI-powered Telegram bot for automated e-commerce sales and customer interaction.",
+      category: "AI Integration",
+      tags: ["Telegram API", "AI", "Automation"],
+      video: "https://www.facebook.com/share/v/17udHe3CEn/"
     }
   ];
 
   return (
-    <section id="projects" className="py-16 bg-gradient-to-b from-gray-950 to-black">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6">
-        <div className="text-center mb-12">
-          <h2 className="text-4xl font-bold text-white mb-4">
-            Featured <span className="text-rose-500">Projects</span>
+    <section className="py-20 bg-gray-50 dark:bg-gray-900">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="text-center mb-16">
+          <h2 className="text-3xl sm:text-4xl font-bold text-gray-800 dark:text-white mb-4">
+            Featured <span className="text-blue-600">Projects</span>
           </h2>
-          <p className="text-gray-400 max-w-2xl mx-auto">
-            A selection of my recent work showcasing full-stack development, AI integration, and automation solutions.
+          <p className="text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
+            A selection of my recent work showcasing technical expertise and problem-solving capabilities.
           </p>
         </div>
-        
-        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
           {projects.map((project, index) => (
-            <div key={index} className="group bg-gray-800/30 backdrop-blur-sm rounded-xl border border-gray-700 overflow-hidden hover:border-rose-500/50 hover:shadow-2xl hover:shadow-rose-500/10 transition-all duration-300">
+            <div key={index} className="bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300 border border-gray-200 dark:border-gray-700">
               <div className="p-6">
-                <div className="flex items-start justify-between mb-4">
-                  <h3 className="text-xl font-bold text-white group-hover:text-rose-400 transition-colors">
-                    {project.title}
-                  </h3>
+                <div className="flex items-center justify-between mb-4">
+                  <span className="px-3 py-1 bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 text-sm font-medium rounded-full">
+                    {project.category}
+                  </span>
                 </div>
                 
-                <p className="text-gray-400 mb-6 text-sm leading-relaxed">
+                <h3 className="text-xl font-bold text-gray-800 dark:text-white mb-3">
+                  {project.title}
+                </h3>
+                
+                <p className="text-gray-600 dark:text-gray-400 mb-6 text-sm leading-relaxed">
                   {project.description}
                 </p>
                 
                 <div className="flex flex-wrap gap-2 mb-6">
                   {project.tags.map((tag) => (
-                    <span key={tag} className="px-3 py-1 bg-gray-700/50 text-gray-300 text-xs rounded-full">
+                    <span key={tag} className="px-3 py-1 bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400 text-xs rounded-full">
                       {tag}
                     </span>
                   ))}
                 </div>
                 
                 <div className="flex gap-3">
-                  {project.links.map((link, idx) => (
+                  {project.github && (
                     <a
-                      key={idx}
-                      href={link.url}
+                      href={project.github}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="px-4 py-2 bg-rose-600/10 text-rose-400 hover:bg-rose-600/20 hover:text-rose-300 text-sm font-medium rounded-lg transition-colors border border-rose-500/20"
+                      className="px-4 py-2 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600 text-sm font-medium rounded-lg transition-colors flex items-center gap-2"
                     >
-                      {link.text}
+                      <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" />
+                      </svg>
+                      GitHub
                     </a>
-                  ))}
+                  )}
+                  {project.live && (
+                    <a
+                      href={project.live}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="px-4 py-2 bg-blue-600 text-white hover:bg-blue-700 text-sm font-medium rounded-lg transition-colors flex items-center gap-2"
+                    >
+                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                      </svg>
+                      Live Demo
+                    </a>
+                  )}
+                  {project.video && (
+                    <a
+                      href={project.video}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="px-4 py-2 bg-red-600 text-white hover:bg-red-700 text-sm font-medium rounded-lg transition-colors flex items-center gap-2"
+                    >
+                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" />
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                      </svg>
+                      Demo
+                    </a>
+                  )}
                 </div>
               </div>
             </div>
@@ -284,44 +446,80 @@ const Certificates = () => {
   const [selected, setSelected] = useState(null);
 
   const certificates = [
-    { name: "3MTT Nigeria Certificate", url: "https://drive.google.com/file/d/1klUApH81znCS-C12Lh3rK85PC7_hlxrJ/preview" },
-    { name: "ALX Professional Certificate", url: "https://drive.google.com/file/d/1QyvKHeTZbfvEI_DwfOs_V1heciHGz9Vu/preview" },
-    { name: "Microsoft AI Fundamentals", url: "https://drive.google.com/file/d/1qE8MKCwvV5rMk-QJkstCgcLIo9Rkke_N/preview" },
-    { name: "NYSC Certificate", url: "https://drive.google.com/file/d/15idKuQ3lpL_QmMQvImIhX8BSAk0GbD4B/preview" },
-    { name: "B.Sc. Statement of Result", url: "https://drive.google.com/file/d/1Cg9nwsiRVdfM-M4ILJqF2PyqedQqkDMZ/preview" },
+    { 
+      name: "3MTT Nigeria Certificate", 
+      url: "https://drive.google.com/file/d/1klUApH81znCS-C12Lh3rK85PC7_hlxrJ/preview",
+      organization: "3MTT Nigeria"
+    },
+    { 
+      name: "ALX Professional Certificate", 
+      url: "https://drive.google.com/file/d/1QyvKHeTZbfvEI_DwfOs_V1heciHGz9Vu/preview",
+      organization: "ALX Africa"
+    },
+    { 
+      name: "Microsoft AI Fundamentals", 
+      url: "https://drive.google.com/file/d/1qE8MKCwvV5rMk-QJkstCgcLIo9Rkke_N/preview",
+      organization: "Microsoft"
+    },
+    { 
+      name: "NYSC Certificate", 
+      url: "https://drive.google.com/file/d/15idKuQ3lpL_QmMQvImIhX8BSAk0GbD4B/preview",
+      organization: "National Youth Service Corps"
+    },
+    { 
+      name: "B.Sc. Statement of Result", 
+      url: "https://drive.google.com/file/d/1Cg9nwsiRVdfM-M4ILJqF2PyqedQqkDMZ/preview",
+      organization: "University"
+    },
   ];
 
   return (
-    <section id="certificates" className="py-16 bg-gradient-to-b from-black to-gray-950">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6">
-        <div className="text-center mb-12">
-          <h2 className="text-4xl font-bold text-white mb-4">
-            Professional <span className="text-rose-500">Certifications</span>
+    <section className="py-20 bg-white dark:bg-gray-900">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="text-center mb-16">
+          <h2 className="text-3xl sm:text-4xl font-bold text-gray-800 dark:text-white mb-4">
+            Professional <span className="text-blue-600">Certifications</span>
           </h2>
-          <p className="text-gray-400 max-w-2xl mx-auto">
-            Formal recognition of my technical skills and professional development journey.
+          <p className="text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
+            Formal recognition of technical skills and professional development achievements.
           </p>
         </div>
 
-        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
           {certificates.map((cert, index) => (
             <div 
               key={index} 
+              className="bg-gray-50 dark:bg-gray-800 rounded-xl overflow-hidden hover:shadow-lg transition-shadow duration-300 border border-gray-200 dark:border-gray-700 cursor-pointer"
               onClick={() => setSelected(cert.url)}
-              className="group bg-gray-800/30 backdrop-blur-sm rounded-xl border border-gray-700 overflow-hidden hover:border-rose-500/50 hover:shadow-2xl hover:shadow-rose-500/10 transition-all duration-300 cursor-pointer"
             >
-              <div className="aspect-video overflow-hidden">
+              <div className="aspect-video bg-gray-100 dark:bg-gray-700 relative overflow-hidden">
                 <iframe 
                   src={cert.url} 
-                  className="w-full h-full group-hover:scale-105 transition-transform duration-300"
+                  className="w-full h-full"
                   title={cert.name}
                   loading="lazy"
                 />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div>
               </div>
-              <div className="p-4">
-                <h3 className="text-lg font-semibold text-white group-hover:text-rose-400 transition-colors">
+              <div className="p-6">
+                <h3 className="text-lg font-semibold text-gray-800 dark:text-white mb-2">
                   {cert.name}
                 </h3>
+                <p className="text-sm text-gray-600 dark:text-gray-400">
+                  {cert.organization}
+                </p>
+                <button 
+                  className="mt-4 text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 text-sm font-medium flex items-center gap-2"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setSelected(cert.url);
+                  }}
+                >
+                  View Certificate
+                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                  </svg>
+                </button>
               </div>
             </div>
           ))}
@@ -329,23 +527,20 @@ const Certificates = () => {
 
         {selected && (
           <div 
-            onClick={() => setSelected(null)} 
-            className="fixed inset-0 bg-black/90 z-50 flex items-center justify-center p-4 backdrop-blur-sm"
+            className="fixed inset-0 bg-black bg-opacity-90 z-50 flex items-center justify-center p-4"
+            onClick={() => setSelected(null)}
           >
-            <div className="relative w-full max-w-4xl bg-gray-900 rounded-xl overflow-hidden shadow-2xl">
+            <div className="relative w-full max-w-4xl">
               <button 
-                onClick={(e) => { e.stopPropagation(); setSelected(null); }}
-                className="absolute top-4 right-4 z-10 bg-gray-800 hover:bg-gray-700 text-white w-10 h-10 rounded-full flex items-center justify-center hover:scale-110 transition-transform"
+                className="absolute -top-12 right-0 text-white hover:text-gray-300 text-3xl"
+                onClick={() => setSelected(null)}
               >
-                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                </svg>
+                &times;
               </button>
               <iframe 
                 src={selected} 
-                className="w-full aspect-video"
+                className="w-full h-[80vh] rounded-lg"
                 title="Certificate Full View"
-                allowFullScreen
               />
             </div>
           </div>
@@ -357,68 +552,85 @@ const Certificates = () => {
 
 // ==================== RESUME ====================
 const Resume = () => (
-  <section id="resume" className="py-16 bg-gradient-to-b from-gray-950 to-black">
-    <div className="max-w-4xl mx-auto px-4 sm:px-6">
-      <div className="bg-gray-800/30 backdrop-blur-sm rounded-2xl border border-gray-700 p-8 md:p-12">
-        <div className="text-center mb-8">
-          <h2 className="text-4xl font-bold text-white mb-4">
-            Professional <span className="text-rose-500">Resume</span>
+  <section className="py-20 bg-gray-50 dark:bg-gray-900">
+    <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-8 md:p-12">
+        <div className="text-center mb-12">
+          <h2 className="text-3xl sm:text-4xl font-bold text-gray-800 dark:text-white mb-4">
+            Professional <span className="text-blue-600">Resume</span>
           </h2>
-          <p className="text-gray-400">
-            Download my resume to view my complete experience, skills, and qualifications.
+          <p className="text-gray-600 dark:text-gray-400">
+            Download my complete resume for detailed experience, skills, and qualifications.
           </p>
         </div>
 
-        <div className="grid md:grid-cols-2 gap-6 mb-8">
-          <div className="space-y-4">
-            <h3 className="text-xl font-semibold text-white">Experience Highlights</h3>
-            <ul className="space-y-3 text-gray-300">
-              <li className="flex items-start gap-2">
-                <span className="text-rose-400 mt-1">•</span>
-                <span>Full-stack development with React & Node.js</span>
-              </li>
-              <li className="flex items-start gap-2">
-                <span className="text-rose-400 mt-1">•</span>
-                <span>AI integration & automation workflows</span>
-              </li>
-              <li className="flex items-start gap-2">
-                <span className="text-rose-400 mt-1">•</span>
-                <span>Software testing & quality assurance</span>
-              </li>
-              <li className="flex items-start gap-2">
-                <span className="text-rose-400 mt-1">•</span>
-                <span>Database design & management</span>
-              </li>
-            </ul>
+        <div className="grid md:grid-cols-2 gap-12 mb-12">
+          <div>
+            <h3 className="text-xl font-semibold text-gray-800 dark:text-white mb-6 pb-3 border-b border-gray-200 dark:border-gray-700">
+              Skills Overview
+            </h3>
+            <div className="space-y-6">
+              <div>
+                <h4 className="font-medium text-gray-700 dark:text-gray-300 mb-3">Frontend Development</h4>
+                <div className="space-y-2">
+                  {['React.js', 'JavaScript (ES6+)', 'Tailwind CSS', 'HTML5/CSS3'].map(skill => (
+                    <div key={skill} className="flex items-center justify-between">
+                      <span className="text-gray-600 dark:text-gray-400">{skill}</span>
+                      <div className="w-32 h-2 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
+                        <div className="h-full bg-blue-600 rounded-full" style={{ width: '90%' }}></div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              <div>
+                <h4 className="font-medium text-gray-700 dark:text-gray-300 mb-3">Backend Development</h4>
+                <div className="space-y-2">
+                  {['Node.js', 'Express.js', 'PostgreSQL', 'RESTful APIs'].map(skill => (
+                    <div key={skill} className="flex items-center justify-between">
+                      <span className="text-gray-600 dark:text-gray-400">{skill}</span>
+                      <div className="w-32 h-2 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
+                        <div className="h-full bg-blue-600 rounded-full" style={{ width: '85%' }}></div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
           </div>
 
-          <div className="space-y-4">
-            <h3 className="text-xl font-semibold text-white">Education & Certifications</h3>
-            <ul className="space-y-3 text-gray-300">
-              <li className="flex items-start gap-2">
-                <span className="text-rose-400 mt-1">🎓</span>
-                <span>B.Sc. in Computer Science</span>
-              </li>
-              <li className="flex items-start gap-2">
-                <span className="text-rose-400 mt-1">📜</span>
-                <span>3MTT Graduate Program</span>
-              </li>
-              <li className="flex items-start gap-2">
-                <span className="text-rose-400 mt-1">📜</span>
-                <span>ALX Professional Certificate</span>
-              </li>
-              <li className="flex items-start gap-2">
-                <span className="text-rose-400 mt-1">📜</span>
-                <span>Microsoft AI Fundamentals</span>
-              </li>
-            </ul>
+          <div>
+            <h3 className="text-xl font-semibold text-gray-800 dark:text-white mb-6 pb-3 border-b border-gray-200 dark:border-gray-700">
+              Experience Highlights
+            </h3>
+            <div className="space-y-6">
+              <div className="border-l-4 border-blue-600 pl-4">
+                <h4 className="font-semibold text-gray-800 dark:text-white">Full-Stack Developer</h4>
+                <p className="text-gray-600 dark:text-gray-400 text-sm mt-1">
+                  Building scalable web applications with modern technologies
+                </p>
+              </div>
+              <div className="border-l-4 border-blue-600 pl-4">
+                <h4 className="font-semibold text-gray-800 dark:text-white">AI Integration Specialist</h4>
+                <p className="text-gray-600 dark:text-gray-400 text-sm mt-1">
+                  Implementing AI-powered features using OpenAI and automation tools
+                </p>
+              </div>
+              <div className="border-l-4 border-blue-600 pl-4">
+                <h4 className="font-semibold text-gray-800 dark:text-white">Software Tester</h4>
+                <p className="text-gray-600 dark:text-gray-400 text-sm mt-1">
+                  Ensuring application quality through comprehensive testing methodologies
+                </p>
+              </div>
+            </div>
           </div>
         </div>
 
         <div className="flex flex-col sm:flex-row gap-4 justify-center">
           <a
             href="https://drive.google.com/uc?export=download&id=1MQCdGmyzzojA-Usaux1SMAbo6BBUysU-"
-            className="inline-flex items-center justify-center px-6 py-3 bg-gradient-to-r from-rose-600 to-rose-500 text-white font-medium rounded-lg hover:from-rose-700 hover:to-rose-600 transition-all shadow-lg shadow-rose-600/25"
+            className="inline-flex items-center justify-center px-8 py-3 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700 transition-colors shadow-lg"
             download
           >
             <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -430,7 +642,7 @@ const Resume = () => (
             href="https://drive.google.com/file/d/1MQCdGmyzzojA-Usaux1SMAbo6BBUysU-/view?usp=sharing"
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center justify-center px-6 py-3 bg-gray-800 text-gray-100 font-medium rounded-lg hover:bg-gray-700 transition-colors border border-gray-700"
+            className="inline-flex items-center justify-center px-8 py-3 bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-white font-medium rounded-lg hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors"
           >
             <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
@@ -445,50 +657,50 @@ const Resume = () => (
 
 // ==================== CONTACT ====================
 const Contact = () => (
-  <section id="contact" className="py-16 bg-gradient-to-b from-black to-gray-900">
-    <div className="max-w-4xl mx-auto px-4 sm:px-6">
-      <div className="bg-gray-800/30 backdrop-blur-sm rounded-2xl border border-gray-700 p-8 md:p-12">
-        <div className="text-center mb-8">
-          <h2 className="text-4xl font-bold text-white mb-4">
-            Get In <span className="text-rose-500">Touch</span>
+  <section className="py-20 bg-white dark:bg-gray-900">
+    <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-8 md:p-12">
+        <div className="text-center mb-12">
+          <h2 className="text-3xl sm:text-4xl font-bold text-gray-800 dark:text-white mb-4">
+            Get In <span className="text-blue-600">Touch</span>
           </h2>
-          <p className="text-gray-400">
-            Feel free to reach out for collaboration, opportunities, or just to say hello!
+          <p className="text-gray-600 dark:text-gray-400">
+            Interested in collaboration or opportunities? Feel free to reach out.
           </p>
         </div>
 
-        <div className="grid md:grid-cols-2 gap-8 mb-8">
+        <div className="grid md:grid-cols-2 gap-8 mb-12">
           <div className="space-y-6">
-            <div className="flex items-start gap-4">
-              <div className="w-12 h-12 bg-rose-600/20 rounded-lg flex items-center justify-center">
-                <svg className="w-6 h-6 text-rose-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <div className="flex items-start gap-4 p-4 bg-blue-50 dark:bg-gray-700/50 rounded-xl">
+              <div className="w-12 h-12 bg-blue-600 rounded-lg flex items-center justify-center flex-shrink-0">
+                <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89-5.26a2 2 0 012.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                 </svg>
               </div>
               <div>
-                <h3 className="text-lg font-semibold text-white mb-1">Email</h3>
+                <h3 className="font-semibold text-gray-800 dark:text-white mb-1">Email</h3>
                 <a 
                   href="mailto:olatunjiayokanmii@gmail.com" 
-                  className="text-gray-400 hover:text-rose-400 transition-colors"
+                  className="text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300"
                 >
                   olatunjiayokanmii@gmail.com
                 </a>
               </div>
             </div>
 
-            <div className="flex items-start gap-4">
-              <div className="w-12 h-12 bg-rose-600/20 rounded-lg flex items-center justify-center">
-                <svg className="w-6 h-6 text-rose-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <div className="flex items-start gap-4 p-4 bg-blue-50 dark:bg-gray-700/50 rounded-xl">
+              <div className="w-12 h-12 bg-blue-600 rounded-lg flex items-center justify-center flex-shrink-0">
+                <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                 </svg>
               </div>
               <div>
-                <h3 className="text-lg font-semibold text-white mb-1">LinkedIn</h3>
+                <h3 className="font-semibold text-gray-800 dark:text-white mb-1">LinkedIn</h3>
                 <a 
                   href="https://www.linkedin.com/in/olatunjiayokanmi" 
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-gray-400 hover:text-rose-400 transition-colors"
+                  className="text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300"
                 >
                   linkedin.com/in/olatunjiayokanmi
                 </a>
@@ -497,56 +709,53 @@ const Contact = () => (
           </div>
 
           <div className="space-y-6">
-            <div className="flex items-start gap-4">
-              <div className="w-12 h-12 bg-rose-600/20 rounded-lg flex items-center justify-center">
-                <svg className="w-6 h-6 text-rose-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
+            <div className="flex items-start gap-4 p-4 bg-blue-50 dark:bg-gray-700/50 rounded-xl">
+              <div className="w-12 h-12 bg-blue-600 rounded-lg flex items-center justify-center flex-shrink-0">
+                <svg className="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" />
                 </svg>
               </div>
               <div>
-                <h3 className="text-lg font-semibold text-white mb-1">GitHub</h3>
+                <h3 className="font-semibold text-gray-800 dark:text-white mb-1">GitHub</h3>
                 <a 
                   href="https://github.com/Ayokanmii" 
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-gray-400 hover:text-rose-400 transition-colors"
+                  className="text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300"
                 >
                   github.com/Ayokanmii
                 </a>
               </div>
             </div>
 
-            <div className="flex items-start gap-4">
-              <div className="w-12 h-12 bg-rose-600/20 rounded-lg flex items-center justify-center">
-                <svg className="w-6 h-6 text-rose-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
+            <div className="flex items-start gap-4 p-4 bg-blue-50 dark:bg-gray-700/50 rounded-xl">
+              <div className="w-12 h-12 bg-green-600 rounded-lg flex items-center justify-center flex-shrink-0">
+                <svg className="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347zm-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.76.982.998-3.677-.236-.374a9.86 9.86 0 01-1.505-5.193c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.9 6.994c-.004 5.45-4.438 9.88-9.888 9.88z" />
                 </svg>
               </div>
               <div>
-                <h3 className="text-lg font-semibold text-white mb-1">Location</h3>
-                <span className="text-gray-400">
-                  Nigeria (Open to Remote Opportunities)
-                </span>
+                <h3 className="font-semibold text-gray-800 dark:text-white mb-1">WhatsApp</h3>
+                <a 
+                  href="https://wa.me/+2348103106438" 
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-green-600 dark:text-green-400 hover:text-green-700 dark:hover:text-green-300"
+                >
+                  +234 810 310 6438
+                </a>
               </div>
             </div>
           </div>
         </div>
 
-        <div className="flex flex-col sm:flex-row gap-4 justify-center">
-          <a
-            href="https://wa.me/+2348103106438"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center justify-center px-6 py-3 bg-green-600 text-white font-medium rounded-lg hover:bg-green-700 transition-colors shadow-lg shadow-green-600/25"
-          >
-            <svg className="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 24 24">
-              <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347zm-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.76.982.998-3.677-.236-.374a9.86 9.86 0 01-1.505-5.193c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.9 6.994c-.004 5.45-4.438 9.88-9.888 9.88z" />
-            </svg>
-            Message on WhatsApp
-          </a>
+        <div className="text-center">
+          <p className="text-gray-600 dark:text-gray-400 mb-6">
+            Typically respond within 24 hours
+          </p>
           <a
             href="mailto:olatunjiayokanmii@gmail.com"
-            className="inline-flex items-center justify-center px-6 py-3 bg-gray-800 text-gray-100 font-medium rounded-lg hover:bg-gray-700 transition-colors border border-gray-700"
+            className="inline-flex items-center justify-center px-8 py-3 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700 transition-colors shadow-lg"
           >
             <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89-5.26a2 2 0 012.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
@@ -559,36 +768,76 @@ const Contact = () => (
   </section>
 );
 
+// ==================== FOOTER ====================
+const Footer = () => (
+  <footer className="bg-gray-800 text-white py-8">
+    <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="flex flex-col md:flex-row justify-between items-center">
+        <div className="mb-6 md:mb-0">
+          <h3 className="text-xl font-bold mb-2">Olatunji Ayokanmi</h3>
+          <p className="text-gray-400">Full-Stack Developer & Software Tester</p>
+        </div>
+        
+        <div className="flex space-x-6 mb-6 md:mb-0">
+          {[
+            { name: 'GitHub', url: 'https://github.com/Ayokanmii', icon: 'M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z' },
+            { name: 'LinkedIn', url: 'https://www.linkedin.com/in/olatunjiayokanmi', icon: 'M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z' },
+          ].map((social) => (
+            <a
+              key={social.name}
+              href={social.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-gray-400 hover:text-white transition-colors"
+              aria-label={`Visit ${social.name}`}
+            >
+              <svg className="w-6 h-6" viewBox="0 0 24 24" fill="currentColor">
+                <path d={social.icon} />
+              </svg>
+            </a>
+          ))}
+        </div>
+      </div>
+      
+      <div className="border-t border-gray-700 mt-8 pt-8 text-center">
+        <p className="text-gray-400">
+          &copy; {new Date().getFullYear()} Olatunji Ayokanmi Damilola. All rights reserved.
+        </p>
+      </div>
+    </div>
+  </footer>
+);
+
 // ==================== MAIN APP ====================
 const App = () => {
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+
+  const toggleSidebar = () => {
+    setIsSidebarOpen(!isSidebarOpen);
+  };
+
   return (
     <Router>
-      <div className="min-h-screen bg-gray-950 text-gray-100 font-sans">
-        <Navbar />
-        <FloatingResumeButton />
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/about" element={<About />} />
-          <Route path="/projects" element={<Projects />} />
-          <Route path="/certificates" element={<Certificates />} />
-          <Route path="/resume" element={<Resume />} />
-          <Route path="/contact" element={<Contact />} />
-        </Routes>
-        <Footer />
+      <div className="min-h-screen bg-white dark:bg-gray-900 text-gray-800 dark:text-gray-100 font-sans">
+        {/* Sidebar Navigation */}
+        <Sidebar isOpen={isSidebarOpen} toggleSidebar={toggleSidebar} />
         
-        {/* Custom animation for the floating button */}
-        <style jsx global>{`
-          @keyframes bounce-slow {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-10px); }
-          }
-          .animate-bounce-slow {
-            animation: bounce-slow 3s infinite;
-          }
-          .bg-grid-white\/5 {
-            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32' width='32' height='32' fill='none' stroke='rgb(255 255 255 / 0.05)'%3e%3cpath d='M0 .5H31.5V32'/%3e%3c/svg%3e");
-          }
-        `}</style>
+        {/* Top Navigation (Mobile) */}
+        <TopNavbar toggleSidebar={toggleSidebar} />
+        
+        {/* Main Content */}
+        <main className="lg:ml-64 pt-16 lg:pt-0">
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/about" element={<About />} />
+            <Route path="/projects" element={<Projects />} />
+            <Route path="/certificates" element={<Certificates />} />
+            <Route path="/resume" element={<Resume />} />
+            <Route path="/contact" element={<Contact />} />
+          </Routes>
+          
+          <Footer />
+        </main>
       </div>
     </Router>
   );
