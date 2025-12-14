@@ -339,7 +339,7 @@ const About = () => (
                       <span className="text-blue-600 dark:text-blue-400">🎓</span>
                     </div>
                     <div>
-                      <span className="font-medium text-gray-800 dark:text-white">B.Sc. Computer Science</span>
+                      <span className="font-medium text-gray-800 dark:text-white">B.Sc. Horticulture & Landscape Technology</span>
                       <p className="text-sm text-gray-600 dark:text-gray-400">University</p>
                     </div>
                   </li>
